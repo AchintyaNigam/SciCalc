@@ -1,13 +1,117 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  --primary: #6ca6c1;
+  --secondary: #072ac8;
+  --display: #cee7e6;
+  --dark: #131a26;
+  --light: #eee;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Fira Sans', sans-serif;
+}
+
+body{
+  background-color: var(--light);
+}
+
+.App{
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.calculator{
+  width: 100%;
+  max-width: 500px;
+  background-color: #FFF;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0px 2px 64px rgba(0, 0, 0, 0.2);
+}
+
+.display{
+  padding: 16px;
+  text-align: right;
+  background-color: var(--display);
+  color: var(--dark);
+  font-size: 24px;
+  font-weight: 300;
+}
+
+.buttons_container{
+  display: flex;
+}
+
+
+.display span {
+  font-size: 14px;
+  color: #888;
+}
+
+button{
+  appearance: none;
+  border: none;
+  outline: none;
+  color: #FFF;
+  font-size: 20px;
+  padding: 16px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+button:hover{
+  opacity: 0.9;
+}
+
+.operators {
+  display: grid;
+  grid-template-rows: repeat(5, 50%);
+  grid-template-columns: repeat(auto-fit, minmax(100px));
+  justify-items: space-evenly;
+  align-items: space-evenly;
+  background-color: var(--dark);
+}
+
+.operators button{
+  /*flex: 1 1 33.333%;*/
+  box-shadow: var(--display);
+  border: 0;
+  width: 100%;
+  border-radius: 100%;
+  background-color: var(--primary);
+  font-weight: 700;
+}
+
+.scientific_operators
+{
+  display: flex;
+  flex-wrap: wrap; 
+  background-color: var(--dark);
+}
+
+
+.scientific_operators button{
+  flex: 1 1 33.333%;
+  width: 100%;
+  background-color: var(--primary);
+  font-weight: 700;
+}
+
+.digits {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.digits button {
+  flex: 1 1 33.333%;
+  max-width: 33.333%;
+  background-color: var(--dark);
+}
+
+#equalto{
+  background-color: var(--secondary);
 }
