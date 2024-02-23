@@ -31,7 +31,19 @@ function App() {
   const createDigits = () => {
     const digits = [];
 
-    for(let i = 1; i < 10; i++)
+    for(let i = 7; i < 10; i++)
+    {
+      digits.push(
+        <button onClick={()=>updateCalc(i.toString())} key={i}>{i}</button>
+      )
+    }
+    for(let i = 4; i < 7; i++)
+    {
+      digits.push(
+        <button onClick={()=>updateCalc(i.toString())} key={i}>{i}</button>
+      )
+    }
+    for(let i = 1; i < 4; i++)
     {
       digits.push(
         <button onClick={()=>updateCalc(i.toString())} key={i}>{i}</button>
@@ -111,30 +123,46 @@ function App() {
           <br /> &nbsp;
           {result || "0"}
         </div>
+        <div className='non-changing-buttons'>
+          <button>2<sup>nd</sup></button> 
+          <button>pi</button>
+          <button>e</button>
+          <button onClick={clear}>CE</button>
+          <button onClick={deleteLast}>DEL</button>
+        </div>
 
         <div className='buttons_container'>
           <div className='scientific_operators'>
-            <button>Sin(x)</button>
-            <button>Cos(x)</button>
-            <button>tan(x)</button>
             <button>x<sup>2</sup></button>
             <button>x<sup>3</sup></button>
             <button>x<sup>y</sup></button>
-            <button>log<sub>10</sub>()</button>
-            <button>log<sub>e</sub>()</button>
+            <button>10<sup>x</sup></button>
+            <button>log</button>
+            <button>ln</button>
 
           </div>
-          <div className="digits">
-            { createDigits() }
-            <button onClick={negate}><sup>+</sup>/<sub>-</sub></button>
-            <button onClick={()=>updateCalc('0')}>0</button>
-            <button onClick={()=>updateCalc('.')}>.</button>
-            
+          <div className='buttons_container_child'>
+
+            <div className='secondary_buttons'>
+              <button><sup>1</sup>/<sub>x</sub></button>
+              <button>|x|</button>
+              <button>exp</button>
+              <button>(</button>
+              <button>)</button>
+              <button>n!</button>
+            </div>
+
+            <div className="digits">
+              { createDigits() }
+              <button onClick={negate}><sup>+</sup>/<sub>-</sub></button>
+              <button onClick={()=>updateCalc('0')}>0</button>
+              <button onClick={()=>updateCalc('.')}>.</button>
+            </div>
           </div>
+          
 
           <div className="operators">
-            <button onClick={deleteLast}>DEL</button>
-            <button onClick={clear}>CLR</button>
+            <button>mod</button>
             <button onClick={()=>updateCalc('/')}>/</button>
             <button onClick={()=>updateCalc('*')}>*</button>
             <button onClick={()=>updateCalc('+')}>+</button>
