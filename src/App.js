@@ -11,22 +11,26 @@ function App() {
 
   const ops = ['/', '*', '+', '-', '.'];
 
-  const updateCalc = value => {
-    if(
-      ops.includes(value) && result === '' ||
-      ops.includes(value) && ops.includes(result.slice(-1))
-    )
-    {
-      return;
-    }
-    setCalc(result + value);
-    setResult(result + value);  
 
-    if(!ops.includes(value))
-    {
-      setResult((result + value).toString());
+  const updateCalc = (value) => {
+    // Check if the value is an operator
+    if (ops.includes(value) && value != '-') {
+      // Check if the result is empty or ends with an operator
+      if (result === "" || ops.includes(result.slice(-1))) {
+        return;
+      }
+      
     }
-  }
+  
+    // Concatenate the current result with the new value
+    const newCalc = String(result) + String(value);
+  
+    // Update both calc and result
+    setCalc(newCalc);
+    setResult(newCalc);
+  };
+  
+    
 
   const createDigits = () => {
     const digits = [];
@@ -70,18 +74,29 @@ function App() {
           acos: mode === "rad" ? Math.acos : math.acos,
           atan: mode === "rad" ? Math.atan : math.atan,
       };
-
-      const result = math.evaluate(calc, allVariables);
-      if (typeof result === "number" && !isNaN(result)) {
+      if(calc==="")
+        setResult("");
+      else
+      {
+        const result_temp = math.evaluate(calc, allVariables);
+        if (typeof result_temp === "number" && !isNaN(result)) 
+        {
           setResult(Number(result).toFixed(4));
-      } else {
+        } 
+        else 
+        {
           setResult("Error: Invalid expression");
+        }
       }
+
+      
   } catch (error) {
       setResult("Error: Invalid expression");
   }
 
+  
     setResult(eval(calc).toString());
+    
   }
 
   const clear = () =>
@@ -104,15 +119,16 @@ function App() {
 
   const negate = () =>
   {
+    /*
     if(
       result === '' ||
       ops.includes(result.slice(-1))
     )
     {
       return;
-    }
-    setCalc(-1*calc);
-    setResult(-1*result);  
+    }*/
+    setCalc((-1*result).toString());
+    setResult((-1*result).toString());  
   }
 
   return (
