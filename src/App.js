@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import * as math from "mathjs";
 
+
+
 function App() {
 
   const [calc, setCalc] = useState("");
   const [result, setResult] = useState("");
+  const [second_press, setSecond_press] = useState(false);  
   const [customVariables, setCustomVariables] = useState({});
   const [mode, setMode] = useState("rad");
   const [memory, setMemory] = useState("");
@@ -14,7 +17,7 @@ function App() {
 
   const updateCalc = (value) => {
     // Check if the value is an operator
-    if (ops.includes(value) && value != '-') {
+    if (ops.includes(value) && value !== '-') {
       // Check if the result is empty or ends with an operator
       if (result === "" || ops.includes(result.slice(-1))) {
         return;
@@ -65,8 +68,11 @@ function App() {
           ...customVariables,
           pi: Math.PI,
           e: Math.E,
-          // Add factorial function
-          fact: math.factorial, 
+          ln: math.log, // Natural logarithm
+          log10: math.log10,
+          logBaseY: (x, y) => math.log(x) / math.log(y),
+          cbrt: (x)=>math.cbrt(x),
+          fact: (x)=>math.factorial(x),
           sin: mode === "rad" ? Math.sin : math.sin,
           cos: mode === "rad" ? Math.cos : math.cos,
           tan: mode === "rad" ? Math.tan : math.tan,
@@ -79,23 +85,16 @@ function App() {
       else
       {
         const result_temp = math.evaluate(calc, allVariables);
-        if (typeof result_temp === "number" && !isNaN(result)) 
-        {
-          setResult(Number(result).toFixed(4));
-        } 
-        else 
-        {
-          setResult("Error: Invalid expression");
-        }
+        setResult(result_temp.toString());
       }
 
       
+      /*setResult(eval(calc).toString());*/
   } catch (error) {
       setResult("Error: Invalid expression");
   }
 
   
-    setResult(eval(calc).toString());
     
   }
 
@@ -106,8 +105,14 @@ function App() {
   }
 
   const deleteLast = () => {
+
     if(result === '')
     {
+      return;
+    }
+    else if (result === "Error: Invalid expression")
+    {
+      setResult("");
       return;
     }
 
@@ -119,16 +124,49 @@ function App() {
 
   const negate = () =>
   {
-    /*
-    if(
-      result === '' ||
-      ops.includes(result.slice(-1))
-    )
+    
+    var temp = result;
+    var temp1 = (-1*result);
+    if(!isNaN(temp1))
     {
-      return;
-    }*/
-    setCalc((-1*result).toString());
-    setResult((-1*result).toString());  
+      temp = temp1;
+    }
+    
+    setCalc((temp).toString());
+    setResult((temp).toString());  
+  }
+
+  const second = () =>
+  {
+    setSecond_press(!second_press)
+  }
+
+  const changing_operators = () =>
+  {
+    const operators_changing = [];
+    if(!second_press)
+    {
+      operators_changing.push(
+        <button onClick={()=>updateCalc('^2')}>x<sup>2</sup></button>,
+        <button onClick={()=>updateCalc('^3')}>x<sup>3</sup></button>,
+        <button onClick={()=>updateCalc('^')}>x<sup>y</sup></button>,
+        <button onClick={()=>updateCalc('10^')}>10<sup>x</sup></button>,
+        <button onClick={()=>updateCalc('log10(')}>log</button>,
+        <button onClick={()=>updateCalc('ln(')}>ln</button>,
+      );
+    }
+    else
+    {
+      operators_changing.push(
+        <button onClick={()=>updateCalc('^3')}>x<sup>3</sup></button>,
+        <button onClick={()=>updateCalc('cbrt(')}>cbrt(x)</button>,
+        <button onClick={()=>updateCalc('^(1/')}>yrt(x)</button>,
+        <button onClick={()=>updateCalc('2^')}>2<sup>x</sup></button>,
+        <button onClick={()=>updateCalc('logBaseY(')}>log<sub>y</sub>x</button>,
+        <button onClick={()=>updateCalc('e^')}>e<sup>x</sup></button>,
+      );
+    }
+    return operators_changing;
   }
 
   return (
@@ -139,33 +177,47 @@ function App() {
           <br /> &nbsp;
           {result || "0"}
         </div>
+        <div className='extra_buttons'>
+          <button>GRAD</button>
+          <button>F-E</button>
+
+        </div>
+        <div className='memory_buttons'>
+          <button>MC</button>
+          <button>MR</button>
+          <button>M+</button>
+          <button>M-</button>
+          <button>MS</button>
+          <button>MU</button>
+
+        </div>
+        <div className='trigoNfunc'>
+          <hr></hr>
+          <button>Trigonometry</button>
+          <button>Function</button>
+        </div>
         <div className='non-changing-buttons'>
-          <button>2<sup>nd</sup></button> 
-          <button>pi</button>
-          <button>e</button>
+          <button onClick={second} id={second_press ? 'second_pressed' : 'second_notpressed'}>2<sup>nd</sup></button> 
+          <button onClick={()=>updateCalc('pi')}>pi</button>
+          <button onClick={()=>updateCalc('e')}>e</button>
           <button onClick={clear}>CE</button>
           <button onClick={deleteLast}>DEL</button>
         </div>
 
         <div className='buttons_container'>
           <div className='scientific_operators'>
-            <button>x<sup>2</sup></button>
-            <button>x<sup>3</sup></button>
-            <button>x<sup>y</sup></button>
-            <button>10<sup>x</sup></button>
-            <button>log</button>
-            <button>ln</button>
+            {changing_operators()}
 
           </div>
           <div className='buttons_container_child'>
 
             <div className='secondary_buttons'>
-              <button><sup>1</sup>/<sub>x</sub></button>
-              <button>|x|</button>
+              <button onClick={()=>updateCalc('^-1')}><sup>1</sup>/<sub>x</sub></button>
+              <button onClick={()=>updateCalc(',')}>,</button>
               <button>exp</button>
-              <button>(</button>
-              <button>)</button>
-              <button>n!</button>
+              <button onClick={()=>updateCalc('(')}>(</button>            
+              <button onClick={()=>updateCalc(')')}>)</button>
+              <button onClick={()=>updateCalc('fact(')}>n!</button>
             </div>
 
             <div className="digits">
@@ -178,7 +230,7 @@ function App() {
           
 
           <div className="operators">
-            <button>mod</button>
+            <button onClick={()=>updateCalc('%')}>mod</button>
             <button onClick={()=>updateCalc('/')}>/</button>
             <button onClick={()=>updateCalc('*')}>*</button>
             <button onClick={()=>updateCalc('+')}>+</button>

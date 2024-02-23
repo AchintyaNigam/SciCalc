@@ -48,6 +48,44 @@ body{
   font-weight: 300;
 }
 
+.extra_buttons{
+  background-color: var(--display);
+}
+
+.extra_buttons button{
+  width: var(--button-width);
+  font-weight: var(--fweight);
+  color: var(--dark);
+  background-color: var(--display);
+}
+
+.memory_buttons{
+  display: grid;
+  grid-template-columns: repeat(6, var(--button-width));
+  background-color: var(--display);
+}
+.memory_buttons button{
+  width: 100%;
+  font-weight: var(--fweight);
+  color: var(--dark);
+  background-color: var(--display);
+}
+
+.trigoNfunc{
+  
+  background-color: var(--display);
+}
+
+.trigoNfunc button
+{
+  margin: 1%;
+  background-color: var(--primary);
+  border-radius: 200px;
+  color: var(--light);
+}
+
+
+
 .buttons_container{
   display: flex;
 }
@@ -148,3 +186,14 @@ button:hover{
 #equalto{
   background-color: var(--secondary);
 }
+
+#second_not_pressed{
+  width: 100%;
+  font-weight: var(--fweight);
+  background-color: var(--primary);
+}
+#second_pressed{
+  width: 100%;
+  font-weight: var(--fweight);
+  background-color: var(--secondary);
+} 
