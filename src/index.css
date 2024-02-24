@@ -53,7 +53,7 @@ body{
 }
 
 .extra_buttons button{
-  width: var(--button-width);
+  width: var(--button-width); 
   font-weight: var(--fweight);
   color: var(--dark);
   background-color: var(--display);
@@ -84,6 +84,33 @@ body{
   color: var(--light);
 }
 
+.trigo-container {
+  position: relative;
+}
+
+.trigo
+{
+  opacity: 95%;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  border-radius: 10px;
+  background-color: var(--display);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+  display: grid;
+  grid-template-columns: repeat(4, var(--button-width));
+  grid-template-rows: repeat(2, var(--button-height));
+  
+  background-color: var(--light);
+  z-index: 1;
+}
+
+.trigo button{
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+  background-color: var(--primary);
+}
 
 
 .buttons_container{
