@@ -8,12 +8,13 @@ function App() {
   const [calc, setCalc] = useState("");
   const [result, setResult] = useState("");
   const [second_press, setSecond_press] = useState(false);  
-  const [mode, setMode] = useState("rad");
-  const [memory, setMemory] = useState("");
   const [isTrigoClicked, setTrigoVisibility] = useState(false);
+  const [mode, setMode] = useState("rad");
+  const [isFuncClicked, setFuncVisibility] = useState(false); 
   const [second_press_trigo, setSecond_press_trigo] = useState(false);  
   const [hyp_press, setHyp_press] = useState(false); 
-  const [isFuncClicked, setFuncVisibility] = useState(false); 
+  const [memory, setMemory] = useState("");
+  const [isMvClicked, setMv] = useState(false);
 
   const ops = ['/', '*', '+', '-', '.'];
   
@@ -27,6 +28,19 @@ function App() {
     setFuncVisibility(!isFuncClicked);
     setTrigoVisibility(false);
   }
+
+  const handleMvClick = () => {
+    setMv(!isMvClicked);
+  }
+
+  const memory_call = () => {
+    if(memory==='')
+      return(<p>There is nothing in Memory, use (MS) to store value</p>);
+    else
+      return(<p>{memory}</p>);
+
+  }
+
 
   const updateCalc = (value) => {
     // Check if the value is an operator
@@ -312,8 +326,27 @@ function App() {
     return changes;
   }
 
+  const mr_call = () =>
+  {
+    clear();
+    setResult(memory.toString());
+  }
+
+  const handleFEClick = () =>
+  {
+    const res = parseFloat(result).toExponential().toString() 
+    setCalc(res);
+    setResult(res);
+  }
   return (
     <div className="App">
+      {isMvClicked && <div className='memory'>
+        <h1>Memory</h1>
+        <hr></ hr>
+        <div className='memory_internal_container'>
+          {memory_call()}
+        </div>
+      </div>}
       <div className="calculator">
         <div className="display">
           {calc ? <span>{calc}</span>: ''} 
@@ -322,15 +355,15 @@ function App() {
         </div>
         <div className='extra_buttons'>
           {deg_rad_button()}
-          <button>F-E</button>
+          <button onClick={handleFEClick}>F-E</button>
         </div>
         <div className='memory_buttons'>
-          <button>MC</button>
-          <button>MR</button>
-          <button>M+</button>
-          <button>M-</button>
-          <button>MS</button>
-          <button>Mv</button>
+          <button onClick={()=>setMemory("")}>MC</button>
+          <button onClick={mr_call}>MR</button>
+          <button onClick={()=>setMemory(memory+1)}>M+</button>
+          <button onClick={()=>setMemory(memory-1)}>M-</button>
+          <button onClick={()=>setMemory(result)}>MS</button>
+          <button onClick={handleMvClick}>Mv</button>
 
         </div>
         <div className='trigoNfunc'>
@@ -374,7 +407,7 @@ function App() {
             <div className='secondary_buttons'>
               <button onClick={()=>updateCalc('^-1')}><sup>1</sup>/<sub>x</sub></button>
               <button onClick={()=>updateCalc(',')}>,</button>
-              <button>exp</button>
+              <button onClick={()=>updateCalc('e+')}>exp</button>
               <button onClick={()=>updateCalc('(')}>(</button>            
               <button onClick={()=>updateCalc(')')}>)</button>
               <button onClick={()=>updateCalc('fact(')}>n!</button>
