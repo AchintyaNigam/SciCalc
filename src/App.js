@@ -13,16 +13,20 @@ function App() {
   const [isTrigoClicked, setTrigoVisibility] = useState(false);
   const [second_press_trigo, setSecond_press_trigo] = useState(false);  
   const [hyp_press, setHyp_press] = useState(false); 
-  const [func_press, setPress] = useState(false); 
-
-
-
-  const handleTrigoClick = () => {
-    setTrigoVisibility(!isTrigoClicked);
-  };
+  const [isFuncClicked, setFuncVisibility] = useState(false); 
 
   const ops = ['/', '*', '+', '-', '.'];
+  
+  const handleTrigoClick = () => {
+    setTrigoVisibility(!isTrigoClicked);
+    setFuncVisibility(false);
+  };
 
+  const handleFuncClick = () =>
+  {
+    setFuncVisibility(!isFuncClicked);
+    setTrigoVisibility(false);
+  }
 
   const updateCalc = (value) => {
     // Check if the value is an operator
@@ -47,8 +51,10 @@ function App() {
   };
   
   const display_fix = () =>{
-    if(isTrigoClicked)
+    if(isTrigoClicked && !isFuncClicked)
       setTrigoVisibility(false);
+    else if(isFuncClicked && !isTrigoClicked)
+      setFuncVisibility(false);
   }
     
 
@@ -120,7 +126,9 @@ function App() {
           acsch: (x) => 1 / math.asinh(x),
           acoth: (x) => 1 / math.atanh(x),
 
-
+          abs: (x) => Math.abs(x),
+          floor: (x) => Math.floor(x),
+          ceil: (x) => Math.ceil(x),
       };
       if(calc==="")
         setResult("");
@@ -136,6 +144,15 @@ function App() {
   }
   display_fix();
   }
+
+  const random = () =>
+  {
+    const random = Math.random();
+    setCalc("");
+    setResult(random);
+    display_fix();
+  }
+
 
   const clear = () =>
   {
@@ -262,7 +279,7 @@ function App() {
         <button onClick={handle_hyp_click} style={{ backgroundColor: '#6ca6c1'}}>hyp</button>,
         <button onClick={()=>updateCalc('sech(')}>sech</button>,
         <button onClick={()=>updateCalc('cosech(')}>csch</button>,
-        <button onClick={()=>updateCalc('coth(')}>coth</button>
+        <button onClick={()=>updateCalc('coth(')}>coth</button>,
       )
     }
     else if(hyp_press && second_press_trigo)
@@ -319,11 +336,21 @@ function App() {
         <div className='trigoNfunc'>
           <hr></hr>
           <button onClick={handleTrigoClick}>Trigonometry</button>
-          <button>Function</button>
+          <button onClick={handleFuncClick}>Function</button>
           <div className='trigo-container'>
             {isTrigoClicked && <div className='trigo'>
               {trigo_changes()}
             </div>}
+          <div classNAme='func-container'>
+            {isFuncClicked && <div className='func'>
+              <button onClick={()=>updateCalc('abs(')}>abs()</button>
+              <button onClick={()=>updateCalc('floor(')}>floor()</button>
+              <button onClick={()=>updateCalc('ceil(')}>ceil()</button>
+              <button onClick={random}>rand</button>
+              <button>dms</button>
+              <button>deg</button>
+              </div>}
+          </div>
           </div>
           
         </div>
