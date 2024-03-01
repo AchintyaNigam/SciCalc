@@ -4,19 +4,19 @@ import Digits from "./Digits";
 import Operators from "./Operators";
 
 
-function MainButtons ({ mode, updateCalc, second_press, display_fix, result, setResult, calc, setCalc, calculate})
+function MainButtons ({ mode, updateCalc, isSecondClicked, displayFix, result, setResult, calc, setCalc, calculate})
 {
     
 
     return(
         <div className='buttons_container'>
         
-          <ScientificButtons updateCalc={updateCalc} second_press={second_press} />
+          <ScientificButtons updateCalc={updateCalc} isSecondClicked={isSecondClicked} />
 
           <div className='buttons_container_child'>
 
             <SecondaryButtons updateCalc={updateCalc} />
-            <Digits updateCalc={updateCalc} display_fix={display_fix} result={result} setResult={setResult} calc={calc} setCalc={setCalc}/>
+            <Digits updateCalc={updateCalc} displayFix={displayFix} result={result} setResult={setResult} calc={calc} setCalc={setCalc}/>
 
           </div>
           <Operators updateCalc={updateCalc} calculate={calculate} />

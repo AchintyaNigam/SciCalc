@@ -1,20 +1,23 @@
+import { useCallback } from "react";
+
 function ExtraButtons ({ mode, setMode, result, setResult, setCalc })
 {
-    const deg_rad_button = () =>
-    {
-        if(mode === 'rad')
-        return(<button onClick={mode_toggle}>RAD</button>);
-        else
-        return(<button onClick={mode_toggle}>DEG</button>);
-    }
-
-    const mode_toggle = () =>
+    const modeToggle = useCallback(() =>
     {
         if(mode==='rad')
         setMode('deg');
         else
         setMode('rad');
-    }
+    }, [mode, setMode])
+
+    const degRadButton = useCallback(() =>
+    {
+        if(mode === 'rad')
+        return(<button onClick={modeToggle}>RAD</button>);
+        else
+        return(<button onClick={modeToggle}>DEG</button>);
+    }, [mode, modeToggle])
+
 
     const handleFEClick = () =>
     {
@@ -24,7 +27,7 @@ function ExtraButtons ({ mode, setMode, result, setResult, setCalc })
     }
     return(
         <div className='extra_buttons'>
-          {deg_rad_button()}
+          {degRadButton()}
           <button onClick={handleFEClick}>F-E</button>
         </div>
     )

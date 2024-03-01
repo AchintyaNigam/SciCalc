@@ -1,9 +1,11 @@
-function ScientificButtons ({ updateCalc, second_press })
+import { useCallback } from "react";
+
+function ScientificButtons ({ updateCalc, isSecondClicked })
 {
-    const changing_operators = () =>
+    const changing_operators = useCallback(() =>
     {
         const operators_changing = [];
-        if(!second_press)
+        if(!isSecondClicked)
         {
         operators_changing.push(
             <button onClick={()=>updateCalc('^2')}>x<sup>2</sup></button>,
@@ -26,7 +28,7 @@ function ScientificButtons ({ updateCalc, second_press })
         );
         }
         return operators_changing;
-    }
+    }, [updateCalc, isSecondClicked])
     return(
         <div className='scientific_operators'>
             {changing_operators()}

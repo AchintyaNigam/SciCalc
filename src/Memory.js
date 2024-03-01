@@ -1,5 +1,5 @@
 function Memory({ isMvClicked, memory }) {
-    const memory_call = (memory) => {
+    const memoryCall = (memory) => {
       if(memory==='')
         return(<p>There is nothing in Memory, use (MS) to store value</p>);
       else
@@ -15,7 +15,7 @@ function Memory({ isMvClicked, memory }) {
           <h1>Memory</h1>
           <hr></ hr>
           <div className='memory_internal_container'>
-            {memory_call(memory)}
+            {memoryCall(memory)}
           </div>
         </div>
       )

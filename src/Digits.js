@@ -1,6 +1,8 @@
-function Digits ({ updateCalc, display_fix, result, setResult, calc, setCalc })
+import { useCallback } from "react";
+
+function Digits ({ updateCalc, displayFix, result, setResult, calc, setCalc })
 {
-    const createDigits = () => {
+    const createDigits = useCallback(() => {
         const digits = [];
     
         for(let i = 7; i < 10; i++)
@@ -24,7 +26,7 @@ function Digits ({ updateCalc, display_fix, result, setResult, calc, setCalc })
     
         return digits;
         
-      }
+      }, [updateCalc])
     const negate = () =>
     {
 
@@ -37,7 +39,7 @@ function Digits ({ updateCalc, display_fix, result, setResult, calc, setCalc })
 
         setCalc((temp).toString());
         setResult((temp).toString());  
-        display_fix();
+        displayFix();
     }
     return(
         <div className="digits">

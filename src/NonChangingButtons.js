@@ -1,4 +1,4 @@
-function NonChangingButtons ({ updateCalc, clear, result, setResult, setCalc, second, second_press, display_fix })
+function NonChangingButtons ({ updateCalc, clear, result, setResult, setCalc, second, isSecondClicked, displayFix })
 {
     
 
@@ -18,12 +18,12 @@ function NonChangingButtons ({ updateCalc, clear, result, setResult, setCalc, se
     
         setCalc(value);
         setResult(value);
-        display_fix();
+        displayFix();
       }
 
     return(
-        <div className='non-changing-buttons'>
-          <button onClick={second} id={second_press ? 'second_pressed' : 'second_notpressed'}>2<sup>nd</sup></button> 
+        <div className='non_changing_buttons'>
+          <button onClick={second} id={isSecondClicked ? 'second_clicked' : 'second_not_clicked'}>2<sup>nd</sup></button> 
           <button onClick={()=>updateCalc('pi')}>pi</button>
           <button onClick={()=>updateCalc('e')}>e</button>
           <button onClick={clear}>CE</button>

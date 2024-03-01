@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import * as math from "mathjs";
 
 import Memory from './Memory';
 import MemoryButtons from './MemoryButtons';
-import TrigoAndFunc from './trigoNfunc';
+import TrigoAndFunc from './trigoNfunc';  
 import Display from './Display';
 import ExtraButtons from './ExtraButtons';
 import NonChangingButtons from './NonChangingButtons';
@@ -22,11 +22,19 @@ function App() {
   const [isTrigoClicked, setTrigoVisibility] = useState(false);
   const [isFuncClicked, setFuncVisibility] = useState(false);
 
-  const [second_press, setSecond_press] = useState(false); 
+  const [isSecondClicked, setIsSecondClicked] = useState(false); 
 
-  const ops = ['/', '*', '+', '-', '.'];
+  const ops = useMemo(()=>{return(['/', '*', '+', '-', '.'])}, []);
+
+  const displayFix = useCallback(() =>{
+    /*makes sure to close trigo and func pop ups when any other button is clicked*/ 
+    if(isTrigoClicked && !isFuncClicked)
+      setTrigoVisibility(false);
+    else if(isFuncClicked && !isTrigoClicked)
+      setFuncVisibility(false);
+  }, [isFuncClicked, isTrigoClicked])
   
-  const updateCalc = (value) => {
+  const updateCalc = useCallback((value) => {
     // Check if the value is an operator
     if (ops.includes(value) && value !== '-') {
       // Check if the result is empty or ends with an operator
@@ -44,19 +52,12 @@ function App() {
     setCalc(newCalc);
     setResult(newCalc);
 
-    display_fix();
+    displayFix();
 
     
-  };
+  }, [displayFix, ops, result]);
   
-  const display_fix = () =>{
-    if(isTrigoClicked && !isFuncClicked)
-      setTrigoVisibility(false);
-    else if(isFuncClicked && !isTrigoClicked)
-      setFuncVisibility(false);
-  }
-    
-  const calculate = () =>
+  const calculate = useCallback(() =>
     {
       try {
         const allVariables = {
@@ -110,26 +111,25 @@ function App() {
           setResult(result_temp.toString());
           setCalc(calc+'=');
         }
-        /*setResult(eval(calc).toString());*/
       } 
       catch (error) 
       {
         setResult("Error: Invalid expression");
       }
-      display_fix();
-    }
+      displayFix();
+    }, [calc, displayFix, mode])
 
 
   const clear = () =>
   {
     setResult("");
     setCalc("");
-    display_fix();
+    displayFix();
   }
   
   const second = () =>
   {
-      setSecond_press(!second_press)
+    setIsSecondClicked(!isSecondClicked)
   }
   
   return (
@@ -139,9 +139,9 @@ function App() {
         <Display calc={calc} result={result} />
         <ExtraButtons mode={mode} setMode={setMode} result={result} setResult={setResult} setCalc={setCalc}/>
         <MemoryButtons setMv={setMv} isMvClicked={isMvClicked} clear={clear} memory={memory} setMemory={setMemory} result={result} setResult={setResult}/>
-        <TrigoAndFunc isTrigoClicked={isTrigoClicked} setTrigoVisibility={  setTrigoVisibility} isFuncClicked={isFuncClicked} setFuncVisibility={setFuncVisibility} setResult={setResult} setCalc={setCalc} updateCalc={updateCalc} display_fix={display_fix} />          
-        <NonChangingButtons updateCalc={updateCalc} clear={clear} result={result} setResult={setResult} setCalc={setCalc} second={second} second_press={second_press} />
-        <MainButtons mode={mode} updateCalc={updateCalc} second_press={second_press} display_fix={display_fix} result={result} setResult={setResult} setCalc={setCalc} calculate={calculate}/>
+        <TrigoAndFunc isTrigoClicked={isTrigoClicked} setTrigoVisibility={  setTrigoVisibility} isFuncClicked={isFuncClicked} setFuncVisibility={setFuncVisibility} setResult={setResult} setCalc={setCalc} updateCalc={updateCalc} displayFix={displayFix} />          
+        <NonChangingButtons updateCalc={updateCalc} clear={clear} result={result} setResult={setResult} setCalc={setCalc} second={second} isSecondClicked={isSecondClicked} />
+        <MainButtons mode={mode} updateCalc={updateCalc} isSecondClicked={isSecondClicked} displayFix={displayFix} result={result} setResult={setResult} setCalc={setCalc} calculate={calculate}/>
       </div>
     </div>
   );

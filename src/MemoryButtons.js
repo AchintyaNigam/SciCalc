@@ -4,13 +4,13 @@ function MemoryButtons ({ setMv, isMvClicked, clear, memory, setMemory, result, 
       setMv(!isMvClicked);
     }
   
-    const mr_call = () =>
+    const mrCall = () =>
     {
       clear();
       setResult(memory.toString());
     }
   
-    const ms_call = () => {
+    const msCall = () => {
       if(result !== "Error: Invalid expression"){
         console.log(result)
         setMemory(result);
@@ -20,10 +20,10 @@ function MemoryButtons ({ setMv, isMvClicked, clear, memory, setMemory, result, 
     return(
       <div className='memory_buttons'>
         <button onClick={()=>setMemory("")}>MC</button>
-        <button onClick={mr_call}>MR</button>
+        <button onClick={mrCall}>MR</button>
         <button onClick={()=>setMemory((parseFloat(memory)+1).toString())}>M+</button>
         <button onClick={()=>setMemory((parseFloat(memory)-1).toString())}>M-</button>
-        <button onClick={ms_call}>MS</button>
+        <button onClick={msCall}>MS</button>
         <button onClick={handleMvClick}>Mv</button>
       </div>
     )
