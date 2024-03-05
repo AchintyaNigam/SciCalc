@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
-import * as math from "mathjs";
+//import * as math from "mathjs";
+import axios from 'axios';
 
 import Memory from './Memory';
 import MemoryButtons from './MemoryButtons';
@@ -59,6 +60,7 @@ function App() {
   
   const calculate = useCallback(() =>
     {
+      /*
       try {
         const allVariables = {
             //...customVariables,
@@ -115,7 +117,29 @@ function App() {
       catch (error) 
       {
         setResult("Error: Invalid expression");
+      }*/
+      var deg;
+      // Replace all '^' with '%5E' in the calc string
+      if(mode==='DEG')
+      {
+        deg = true;
       }
+      else
+      {
+        deg = false;
+      }
+    
+      axios.post('http://localhost:8080/api/evaluate?expression=' + encodeURIComponent(calc) + '&DEG=' + encodeURIComponent(deg))
+  .then(function (response) {
+    setResult(response.data.result.toString());
+    setCalc(calc + '=');
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
+
+
       displayFix();
     }, [calc, displayFix, mode])
 
