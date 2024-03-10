@@ -129,7 +129,7 @@ function App() {
         deg = false;
       }
     
-      axios.post('http://localhost:8080/api/evaluate?expression=' + encodeURIComponent(calc) + '&DEG=' + encodeURIComponent(deg))
+      axios.post('https://scicalc-backend.onrender.com/api/evaluate?expression=' + encodeURIComponent(calc) + '&DEG=' + encodeURIComponent(deg))
   .then(function (response) {
     setResult(response.data.result.toString());
     setCalc(calc + '=');
