@@ -60,7 +60,7 @@ function App() {
   
   const calculate = useCallback(() =>
     {
-      /*
+      
       try {
         const allVariables = {
             //...customVariables,
@@ -117,7 +117,7 @@ function App() {
       catch (error) 
       {
         setResult("Error: Invalid expression");
-      }*/
+      }
       var deg;
       // Replace all '^' with '%5E' in the calc string
       if(mode==='DEG')
@@ -129,14 +129,14 @@ function App() {
         deg = false;
       }
     
-      axios.post('https://scicalc-backend.onrender.com/api/evaluate?expression=' + encodeURIComponent(calc) + '&DEG=' + encodeURIComponent(deg))
-  .then(function (response) {
-    setResult(response.data.result.toString());
-    setCalc(calc + '=');
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+  //     axios.post('https://scicalc-backend.onrender.com/api/evaluate?expression=' + encodeURIComponent(calc) + '&DEG=' + encodeURIComponent(deg))
+  // .then(function (response) {
+  //   setResult(response.data.result.toString());
+  //   setCalc(calc + '=');
+  // })
+  // .catch(function (error) {
+  //   console.log(error);
+  // });
 
 
 
