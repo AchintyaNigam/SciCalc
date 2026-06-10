@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
-import * as math from "mathjs";
-//import axios from 'axios';
+//import * as math from "mathjs";
+import axios from 'axios';
 
 import Memory from './Memory';
 import MemoryButtons from './MemoryButtons';
@@ -61,63 +61,63 @@ function App() {
   const calculate = useCallback(() =>
     {
       
-      try {
-        const allVariables = {
-            //...customVariables,
-            pi: Math.PI,
-            e: Math.E,
-            ln: math.log, // Natural logarithm(base e)
-            log10: math.log10,
-            logBaseY: (x, y) => math.log(x) / math.log(y),
-            cbrt: (x)=>math.cbrt(x),
-            fact: (x)=>math.factorial(x),
+    //  try {
+    //    const allVariables = {
+    //        //...customVariables,
+    //        pi: Math.PI,
+    //        e: Math.E,
+    //        ln: math.log, // Natural logarithm(base e)
+    //        log10: math.log10,
+    //        logBaseY: (x, y) => math.log(x) / math.log(y),
+    //        cbrt: (x)=>math.cbrt(x),
+    //        fact: (x)=>math.factorial(x),
   
-            sin: (x) => math.sin(math.unit(x, mode)),
-            cos: (x) => math.cos(math.unit(x, mode)),
-            tan: (x) => math.tan(math.unit(x, mode)),
-            sec: (x) => 1 / math.cos(math.unit(x, mode)),
-            csc: (x) => 1 / math.sin(math.unit(x, mode)),
-            cot: (x) => 1 / math.tan(math.unit(x, mode)),
+    //        sin: (x) => math.sin(math.unit(x, mode)),
+    //        cos: (x) => math.cos(math.unit(x, mode)),
+    //        tan: (x) => math.tan(math.unit(x, mode)),
+    //        sec: (x) => 1 / math.cos(math.unit(x, mode)),
+    //        csc: (x) => 1 / math.sin(math.unit(x, mode)),
+    //        cot: (x) => 1 / math.tan(math.unit(x, mode)),
   
-            sinh: (x) => mode === "rad" ? Math.sinh(x) : math.sinh(x),
-            cosh: (x) => mode === "rad" ? Math.cosh(x) : math.cosh(x),
-            tanh: (x) => mode === "rad" ? Math.tanh(x) : math.tanh(x),
-            sech: (x) => mode === "rad" ? 1 / Math.cosh(x) : 1 / math.cosh(x),
-            csch: (x) => mode === "rad" ? 1 / Math.sinh(x) : 1 / math.sinh(x),
-            coth: (x) => mode === "rad" ? 1 / Math.tanh(x) : 1 / math.tanh(x),
+    //        sinh: (x) => mode === "rad" ? Math.sinh(x) : math.sinh(x),
+    //        cosh: (x) => mode === "rad" ? Math.cosh(x) : math.cosh(x),
+    //        tanh: (x) => mode === "rad" ? Math.tanh(x) : math.tanh(x),
+    //        sech: (x) => mode === "rad" ? 1 / Math.cosh(x) : 1 / math.cosh(x),
+    //        csch: (x) => mode === "rad" ? 1 / Math.sinh(x) : 1 / math.sinh(x),
+    //        coth: (x) => mode === "rad" ? 1 / Math.tanh(x) : 1 / math.tanh(x),
   
-            
-            asin: (x) => mode === "rad" ? Math.asin(x) : math.asin(x),
-            acos: (x) => mode === "rad" ? Math.acos(x) : math.acos(x),
-            atan: (x) => mode === "rad" ? Math.atan(x) : math.atan(x),
-            asec: (x) => 1 / math.acos(math.unit(x, mode)),
-            acsc: (x) => 1 / math.asin(math.unit(x, mode)),
-            acot: (x) => 1 / math.atan(math.unit(x, mode)),
+    //        
+    //        asin: (x) => mode === "rad" ? Math.asin(x) : math.asin(x),
+    //        acos: (x) => mode === "rad" ? Math.acos(x) : math.acos(x),
+    //        atan: (x) => mode === "rad" ? Math.atan(x) : math.atan(x),
+    //        asec: (x) => 1 / math.acos(math.unit(x, mode)),
+    //        acsc: (x) => 1 / math.asin(math.unit(x, mode)),
+    //        acot: (x) => 1 / math.atan(math.unit(x, mode)),
   
-            asinh: (x) => mode === "rad" ? Math.asinh(x) : math.asinh(x),
-            acosh: (x) => mode === "rad" ? Math.acosh(x) : math.acosh(x),
-            atanh: (x) => mode === "rad" ? Math.atanh(x) : math.atanh(x),
-            asech: (x) => 1 / math.acosh(x),
-            acsch: (x) => 1 / math.asinh(x),
-            acoth: (x) => 1 / math.atanh(x),
+    //        asinh: (x) => mode === "rad" ? Math.asinh(x) : math.asinh(x),
+    //        acosh: (x) => mode === "rad" ? Math.acosh(x) : math.acosh(x),
+    //        atanh: (x) => mode === "rad" ? Math.atanh(x) : math.atanh(x),
+    //        asech: (x) => 1 / math.acosh(x),
+    //        acsch: (x) => 1 / math.asinh(x),
+    //        acoth: (x) => 1 / math.atanh(x),
   
-            abs: (x) => Math.abs(x),
-            floor: (x) => Math.floor(x),
-            ceil: (x) => Math.ceil(x),
-        };
-        if(calc==="")
-          setResult("");
-        else
-        {
-          const result_temp = math.evaluate(calc, allVariables);
-          setResult(result_temp.toString());
-          setCalc(calc+'=');
-        }
-      } 
-      catch (error) 
-      {
-        setResult("Error: Invalid expression");
-      }
+    //        abs: (x) => Math.abs(x),
+    //        floor: (x) => Math.floor(x),
+    //        ceil: (x) => Math.ceil(x),
+    //    };
+    //    if(calc==="")
+    //      setResult("");
+    //    else
+    //    {
+    //      const result_temp = math.evaluate(calc, allVariables);
+    //      setResult(result_temp.toString());
+    //      setCalc(calc+'=');
+    //    }
+    //  } 
+    //  catch (error) 
+    //  {
+    //    setResult("Error: Invalid expression");
+    //  }
       var deg;
       // Replace all '^' with '%5E' in the calc string
       if(mode==='DEG')
@@ -129,14 +129,14 @@ function App() {
         deg = false;
       }
     
-  //     axios.post('https://scicalc-backend.onrender.com/api/evaluate?expression=' + encodeURIComponent(calc) + '&DEG=' + encodeURIComponent(deg))
-  // .then(function (response) {
-  //   setResult(response.data.result.toString());
-  //   setCalc(calc + '=');
-  // })
-  // .catch(function (error) {
-  //   console.log(error);
-  // });
+     axios.post('https://scicalc-backend.onrender.com/api/evaluate?expression=' + encodeURIComponent(calc) + '&DEG=' + encodeURIComponent(deg))
+  .then(function (response) {
+    setResult(response.data.result.toString());
+    setCalc(calc + '=');
+   })
+   .catch(function (error) {
+    console.log(error);
+   });
 
 
 
