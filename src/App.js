@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-//import * as math from "mathjs";
+import * as math from "mathjs";
 import axios from 'axios';
 
 import Memory from './Memory';
